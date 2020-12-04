@@ -1,9 +1,7 @@
 package ru.axout.roomdatabasedemo;
 
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +13,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     // Инициализация переменных
-    EditText editText;
+    Spinner spinnerType, spinnerColor, spinnerSort;
+    EditText editTextID, editTextQuantity;
     Button btAdd, btReset;
     RecyclerView recyclerView;
 
@@ -26,16 +25,51 @@ public class MainActivity extends AppCompatActivity {
     RoomDB database;
     MainAdapter adapter;
 
+    // Массивы для выпадающих списков
+    private final String[] types = {"Обычные", "Пёстрые", "Махровые", "Бахромчатые", "Попугайные"};
+    private final String[] colors = {"Белый", "Кремовый", "Жёлтый", "Бордо", "Красный", "Светло-розовый",
+            "Розовый", "Оранжевый", "Лилак", "Фиолетовый", "Красно-жёлтый", "Розово-белый", "Красно-белый",
+            "Лилово-белый", "Тёмно-пурпурный"};
+    private final String[] sorts = {"Darwisnow", "Cream Fraiche", "Coalition", "Lalibela", "Red Lable",
+            "Super Model", "Barcelona Beauty", "Orange Ninja", "Barcelona", "Bullit", "Verandy", "Milkshake",
+            "Roman Empire", "Synaeda Blue", "Double Twist", "Queensland", "Parrot Sweet"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Присваивание переменным (Assign variables)
-        editText = findViewById(R.id.edit_text);
+        editTextID = findViewById(R.id.editTextID);
+        spinnerType = findViewById(R.id.spTypes);
+        spinnerColor = findViewById(R.id.spColors);
+        spinnerSort = findViewById(R.id.spSorts);
+        editTextQuantity = findViewById(R.id.editTextQuantity);
         btAdd = findViewById(R.id.bt_add);
         btReset = findViewById(R.id.bt_reset);
         recyclerView = findViewById(R.id.recycler_view);
+
+        // Выпадающий список "Типы"
+        ArrayAdapter<String> typesAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, types);
+        typesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final Spinner spTypes = findViewById(R.id.spTypes);
+        spTypes.setAdapter(typesAdapter);
+        spTypes.setPrompt("Тип тюльпана");
+        // Выпадающий список "Цвета"
+        ArrayAdapter<String> colorsAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, colors);
+        colorsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final Spinner spColors = findViewById(R.id.spColors);
+        spColors.setAdapter(colorsAdapter);
+        spColors.setPrompt("Цвет тюльпана");
+        // Выпадающий список "Сорта"
+        ArrayAdapter<String> sortsAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, sorts);
+        sortsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final Spinner spSorts = findViewById(R.id.spSorts);
+        spSorts.setAdapter(sortsAdapter);
+        spSorts.setPrompt("Сорт тюльпана");
 
         // Initialize BD
         database = RoomDB.getInstance(this);
@@ -54,22 +88,34 @@ public class MainActivity extends AppCompatActivity {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Получение строки из edit text
-                String sText = editText.getText().toString().trim();
+                // Получение данных
+                String sID = editTextID.getText().toString().trim();
+                String sType = spTypes.getSelectedItem().toString();
+                String sColor = spColors.getSelectedItem().toString();
+                String sSort = spSorts.getSelectedItem().toString();
+                String sQuantity = editTextQuantity.getText().toString().trim();
+
                 // Проверка пустой строки
-                if (!sText.equals("")) {
-                    // Если строка не пустая
+                // !!! Добавить проверу второй строки ID
+                if (!sQuantity.equals("")) { // Если строка не пустая
                     // Initialize main data
                     MainData data = new MainData();
-                    // Set text on main data
-                    data.setText(sText);
-                    // Вставка текста в БД (Insert text in database)
+                    // Передача данных в MainData
+                    data.setID(Integer.parseInt(sID));
+                    data.setType(sType);
+                    data.setColor(sColor);
+                    data.setSort(sSort);
+                    data.setQuantity(sQuantity);
+                    // Вставка данных (картежа) в БД (Insert text in database)
                     database.mainDao().insert(data);
-                    // Очитка edit text
-                    editText.setText("");
-                    // Уведомление после вставки данных (Notify when data is inserted
+                    // Очитка edittext
+                    editTextID.setText("");
+                    editTextQuantity.setText("");
+                    // Очистка списка данных, что выводится пользователю
                     dataList.clear();
+                    // Заново данные из БД добавлются в список
                     dataList.addAll(database.mainDao().getAll());
+                    // Уведомление после вставки данных (Notify when data is inserted)
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -80,9 +126,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Удаление всех данных из БД (Delete all data from database)
                 database.mainDao().reset(dataList);
-                // Уведомление после удаления данных
+                // Очистка списка данных, что выводится пользователю
                 dataList.clear();
+                // Заново данные из БД добавлются в список
                 dataList.addAll(database.mainDao().getAll());
+                // Уведомление после удаления данных
                 adapter.notifyDataSetChanged();
             }
         });

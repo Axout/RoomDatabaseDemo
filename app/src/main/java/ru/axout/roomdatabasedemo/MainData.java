@@ -9,13 +9,21 @@ import java.io.Serializable;
 // Присваиваем таблице имя
 @Entity(tableName = "table_name")
 public class MainData implements Serializable {
-    // Создаём id столбца (атрибута)
-    @PrimaryKey(autoGenerate = true)
+    // Создание первичного ключа, автоматическое
+    @PrimaryKey // @PrimaryKey(autoGenerate = true)
     private int ID;
 
-    // Создаём текст столбца
-    @ColumnInfo(name = "text")
-    private String text;
+    @ColumnInfo(name = "type")
+    private String type;
+
+    @ColumnInfo(name = "sort")
+    private String sort;
+
+    @ColumnInfo(name = "color")
+    private String color;
+
+    @ColumnInfo(name = "quantity")
+    private String quantity;
 
     // Генерируем геттеры и сеттеры
 
@@ -27,11 +35,35 @@ public class MainData implements Serializable {
         this.ID = ID;
     }
 
-    public String getText() {
-        return text;
+    public String getType() {
+        return type;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 }

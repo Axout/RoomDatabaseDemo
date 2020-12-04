@@ -2,23 +2,141 @@
 
 <!-- LinearLayout выравнивает все дочерние объекты в одном направлении — вертикально или горизонтально -->
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
-    <!-- Текст, который будем добавлять в БД -->
-    <EditText
+    <!-- Код (ID) -->
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_text"
-            android:hint="Введите текст"
-            android:padding="12dp"
-            android:background="@android:drawable/editbox_background"/>
+            android:orientation="horizontal">
+
+        <TextView
+            android:text="Код"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewID"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:textSize="20dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextID"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_background"
+            android:hint="Введите код"/>
+    </LinearLayout>
+
+    <!-- Тип -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:text="Тип"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewType"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="5dp"
+            android:layout_weight="2"
+            android:textSize="20dp"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spTypes"
+            android:spinnerMode="dialog"
+            android:padding="20dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Цвет -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:text="Цвет"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewColor"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="5dp"
+            android:layout_weight="2"
+            android:textSize="20dp"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spColors"
+            android:spinnerMode="dialog"
+            android:padding="20dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Сорт -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:text="Сорт"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewSort"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="5dp"
+            android:layout_weight="2"
+            android:textSize="20dp"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spSorts"
+            android:spinnerMode="dialog"
+            android:padding="20dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Количество -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:text="Количество"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewQuantity"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:textSize="20dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextQuantity"
+            android:hint="Введите кол-во"
+            android:padding="10dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <!-- Макет кнопок ADD и RESET -->
     <LinearLayout

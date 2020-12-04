@@ -43,8 +43,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         final MainData data = dataList.get(position);
         // Инициализация БД
         database = RoomDB.getInstance(context);
-        // Установка текса в text view
-        holder.textView.setText(data.getText());
+
+        // Вывод данных пользователю
+        holder.textViewID.setText(Integer.toString(data.getID()));
+        holder.textViewSort.setText(data.getSort());
+        holder.textViewQuantity.setText(data.getQuantity());
 
         holder.btEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +55,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 // Initialize main data
                 MainData d = dataList.get(holder.getAdapterPosition());
                 final int sID = d.getID();
-                String sText = d.getText();
+                String sQuantity = d.getQuantity();
 
                 // Диалоговое окно
                 final Dialog dialog = new Dialog(context);
@@ -71,7 +74,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 Button btUpdate = dialog.findViewById(R.id.bt_update);
 
                 // Установка текста в edit text
-                editText.setText(sText);
+                editText.setText(sQuantity);
 
                 btUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -79,9 +82,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                         // Скрытие диалогового окна
                         dialog.dismiss();
                         // Получение обновлённого текста из edit text
-                        String uText = editText.getText().toString().trim(); // trim() -
+                        String uQuantity = editText.getText().toString().trim(); // trim() -
                         // Обновление текста в БД
-                        database.mainDao().update(sID, uText);
+                        database.mainDao().update(sID, uQuantity);
                         // Уведомление после обновления данных
                         dataList.clear();
                         dataList.addAll(database.mainDao().getAll());
@@ -113,12 +116,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        TextView textViewID, textViewSort, textViewQuantity;
         ImageView btEdit, btDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.text_view);
+            textViewID = itemView.findViewById(R.id.text_view_id);
+            textViewSort = itemView.findViewById(R.id.text_view_sort);
+            textViewQuantity = itemView.findViewById(R.id.text_view_quantity);
             btEdit = itemView.findViewById(R.id.bt_edit);
             btDelete = itemView.findViewById(R.id.bt_delete);
         }
